@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Elevage, MaleRabbit, FemaleRabbit
+from .models import Elevage, Individu
 from .forms import ElevageForm
 
 def nouveau(request):
@@ -8,11 +8,11 @@ def nouveau(request):
         if form.is_valid():
             elevage = form.save()
 
-            for _ in range(elevage.male_rabbits):
-                MaleRabbit.objects.create(elevage=elevage, age=1)
+            for _ in range(int(request.POST.get('male_rabbits', 0))):
+                Individu.objects.create(elevage=elevage, sex='M', age=1)
 
-            for _ in range(elevage.female_rabbits):
-                FemaleRabbit.objects.create(elevage=elevage, age=1, pregnancyTime=0)
+            for _ in range(int(request.POST.get('female_rabbits', 0))):
+                Individu.objects.create(elevage=elevage, sex='F', age=1)
 
             return redirect('/')
     else:
@@ -25,7 +25,8 @@ def elevage_list(request):
 
 def elevage_detail(request, id):
     elevage = get_object_or_404(Elevage, id=id)
-    return render(request, 'game/elevage_detail.html', {'elevage': elevage})
+    individus = elevage.individus.all()
+    return render(request, 'game/elevage_detail.html', {'elevage': elevage, 'individus': individus})
 
 def home(request):
     return render(request, 'game/home.html')

@@ -1,6 +1,7 @@
 from django.db import models
 
 class Elevage(models.Model):
+    
     name = models.CharField(max_length=100)
     male_rabbits = models.IntegerField()
     female_rabbits = models.IntegerField()
@@ -8,15 +9,31 @@ class Elevage(models.Model):
     cageNumber = models.IntegerField()
     money = models.IntegerField()
     month = models.IntegerField(default=1)
+    
 
     def __str__(self):
         return self.name
 
-class FemaleRabbit(models.Model):
-    elevage = models.ForeignKey(Elevage, on_delete=models.CASCADE, related_name='females')
-    age = models.IntegerField()
-    pregnancyTime = models.IntegerField(default=0)
+# Create your models here.
 
-class MaleRabbit(models.Model):
-    elevage = models.ForeignKey(Elevage, on_delete=models.CASCADE, related_name='males')
+
+class Individu(models.Model):
+    SEX_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+    ]
+    STATE_CHOICES = [
+        ('present', 'Present'),
+        ('sold', 'Sold'),
+        ('dead', 'Dead'),
+        ('pregnant', 'Pregnant'),
+    ]
+
+    elevage = models.ForeignKey(Elevage, on_delete=models.CASCADE, related_name='individus')
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES)
     age = models.IntegerField()
+    state = models.CharField(max_length=10, choices=STATE_CHOICES, default='present')
+
+    
+    
+

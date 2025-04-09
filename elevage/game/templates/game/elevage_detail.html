@@ -4,10 +4,15 @@
 <body>
 <h1>{{ elevage.name }}</h1>
 <p>Month: {{ elevage.month }}</p>
-<p>Male rabbits: {{ elevage.male_rabbits }}</p>
-<p>Female rabbits: {{ elevage.female_rabbits }}</p>
 <p>Food: {{ elevage.foodLevel }}</p>
 <p>Cages: {{ elevage.cageNumber }}</p>
 <p>Money: {{ elevage.money }}</p>
+
+<h2>Individus</h2>
+<ul>
+    {% for individu in individus %}
+        <li>{{ individu.get_sex_display }} - Age: {{ individu.age }} - State: {{ individu.get_state_display }}</li>
+    {% endfor %}
+</ul>
 </body>
 </html>
