@@ -26,3 +26,6 @@ def elevage_list(request):
 def elevage_detail(request, id):
     elevage = get_object_or_404(Elevage, id=id)
     return render(request, 'game/elevage_detail.html', {'elevage': elevage})
+
+def home(request):
+    return render(request, 'game/home.html')
