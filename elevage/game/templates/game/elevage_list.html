@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><title>Farm List</title></head>
+<head><title>Farms</title></head>
 <body>
-<h1>Farms</h1>
+<h1>All Farms</h1>
 <ul>
     {% for elevage in elevages %}
-        <li>{{ elevage.name }}</li>
+        <li>
+            <a href="{% url 'elevage_detail' elevage.id %}">{{ elevage.name }}</a>
+        </li>
     {% endfor %}
 </ul>
 </body>

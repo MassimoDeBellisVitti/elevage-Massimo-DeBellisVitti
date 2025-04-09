@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Elevage, MaleRabbit, FemaleRabbit
 from .forms import ElevageForm
 
@@ -23,3 +23,6 @@ def elevage_list(request):
     elevages = Elevage.objects.all()
     return render(request, 'game/elevage_list.html', {'elevages': elevages})
 
+def elevage_detail(request, id):
+    elevage = get_object_or_404(Elevage, id=id)
+    return render(request, 'game/elevage_detail.html', {'elevage': elevage})
