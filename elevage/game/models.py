@@ -8,7 +8,7 @@ class Elevage(models.Model):
     foodLevel = models.IntegerField()
     cageNumber = models.IntegerField()
     money = models.IntegerField()
-    month = models.IntegerField(default=0)
+    month = models.IntegerField(default=1)
     
 
     def __str__(self):
