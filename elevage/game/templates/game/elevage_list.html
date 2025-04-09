@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>Farm List</title></head>
+<body>
+<h1>Farms</h1>
+<ul>
+    {% for elevage in elevages %}
+        <li>{{ elevage.name }}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>

@@ -18,3 +18,8 @@ def nouveau(request):
     else:
         form = ElevageForm()
     return render(request, 'game/nouveau.html', {'form': form})
+
+def elevage_list(request):
+    elevages = Elevage.objects.all()
+    return render(request, 'game/elevage_list.html', {'elevages': elevages})
+
