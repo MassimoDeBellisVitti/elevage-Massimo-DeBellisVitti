@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Elevage, Individu
-from .forms import ElevageForm
+from .forms import ElevageForm, Actions
 
 def nouveau(request):
     if request.method == 'POST':
@@ -14,7 +14,7 @@ def nouveau(request):
             for _ in range(int(request.POST.get('female_rabbits', 0))):
                 Individu.objects.create(elevage=elevage, sex='F', age=1)
 
-            return redirect('/')
+            return render(request, 'game/actions.html', {'form': form, 'elevage': elevage})
     else:
         form = ElevageForm()
     return render(request, 'game/nouveau.html', {'form': form})
@@ -30,3 +30,16 @@ def elevage_detail(request, id):
 
 def home(request):
     return render(request, 'game/home.html')
+
+def actions(request, elevage_id):
+    elevage = get_object_or_404(Elevage, id=elevage_id)
+
+    if request.method == 'POST':
+        form = Actions(request.POST)
+        if form.is_valid():
+            form = Actions()
+            return render(request, 'game/actions.html', {'form': form, 'elevage': elevage})
+    else:
+        form = Actions()
+
+    return render(request, 'game/actions.html', {'form': form, 'elevage': elevage})

@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><title>{{ elevage.name }}</title></head>
+<head>
+    <title>{{ elevage.name }}</title>
+</head>
 <body>
-<h1>{{ elevage.name }}</h1>
-<p>Month: {{ elevage.month }}</p>
-<p>Food: {{ elevage.foodLevel }}</p>
-<p>Cages: {{ elevage.cageNumber }}</p>
-<p>Money: {{ elevage.money }}</p>
+    <h1>{{ elevage.name }}</h1>
+    <p>Month: {{ elevage.month }}</p>
+    <p>Food: {{ elevage.foodLevel }}</p>
+    <p>Cages: {{ elevage.cageNumber }}</p>
+    <p>Money: {{ elevage.money }}</p>
 
-<h2>Individus</h2>
-<ul>
-    {% for individu in individus %}
-        <li>{{ individu.get_sex_display }} - Age: {{ individu.age }} - State: {{ individu.get_state_display }}</li>
-    {% endfor %}
-</ul>
+    <h2>Individus</h2>
+    <ul>
+        {% for individu in individus %}
+            <li>{{ individu.get_sex_display }} - Age: {{ individu.age }} - State: {{ individu.get_state_display }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'actions' elevage.id %}">
+        <button>Manage Actions</button>
+    </a>
 </body>
 </html>
