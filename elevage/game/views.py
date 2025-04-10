@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Elevage, Individu
+from .models import Elevage, Individu, Regle
 from .forms import ElevageForm, Actions
 
 def nouveau(request):
@@ -33,10 +33,36 @@ def home(request):
 
 def actions(request, elevage_id):
     elevage = get_object_or_404(Elevage, id=elevage_id)
+    regle = Regle.objects.first()
 
     if request.method == 'POST':
         form = Actions(request.POST, elevage=elevage)
         if form.is_valid():
+            male_rabbits_to_sell = form.cleaned_data['male_rabbits_to_sell']
+            female_rabbits_to_sell = form.cleaned_data['female_rabbits_to_sell']
+            food_to_buy = form.cleaned_data['food_to_buy']
+            cages_to_buy = form.cleaned_data['cages_to_buy']
+
+            if male_rabbits_to_sell > 0:
+                male_rabbits = elevage.individus.filter(sex='M', state='present')[:male_rabbits_to_sell]
+                for rabbit in male_rabbits:
+                    rabbit.state = 'sold'
+                    rabbit.save()
+
+            if female_rabbits_to_sell > 0:
+                female_rabbits = elevage.individus.filter(sex='F', state='present')[:female_rabbits_to_sell]
+                for rabbit in female_rabbits:
+                    rabbit.state = 'sold'
+                    rabbit.save()
+
+            elevage.male_rabbits -= male_rabbits_to_sell
+            elevage.female_rabbits -= female_rabbits_to_sell
+            elevage.money += (male_rabbits_to_sell + female_rabbits_to_sell) * regle.rabbit_sale_price
+            elevage.foodLevel += food_to_buy
+            elevage.cageNumber += cages_to_buy
+            elevage.money -= (food_to_buy * regle.food_price + cages_to_buy * regle.cage_price)
+            elevage.save()
+
             return redirect('elevage_detail', id=elevage.id)
     else:
         form = Actions(elevage=elevage)

@@ -37,6 +37,7 @@ class Individu(models.Model):
 class Regle(models.Model):
     food_price = models.IntegerField(default=5)
     cage_price = models.IntegerField(default=50)
+    rabbit_sale_price = models.IntegerField(default=10)
 
 
     
