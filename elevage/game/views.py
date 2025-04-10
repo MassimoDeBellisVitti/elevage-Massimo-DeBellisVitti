@@ -14,7 +14,7 @@ def nouveau(request):
             for _ in range(int(request.POST.get('female_rabbits', 0))):
                 Individu.objects.create(elevage=elevage, sex='F', age=1)
 
-            return render(request, 'game/actions.html', {'form': form, 'elevage': elevage})
+            return redirect('elevage_detail', id=elevage.id)
     else:
         form = ElevageForm()
     return render(request, 'game/nouveau.html', {'form': form})
