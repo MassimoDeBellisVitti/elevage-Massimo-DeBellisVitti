@@ -37,7 +37,6 @@ def actions(request, elevage_id):
     if request.method == 'POST':
         form = Actions(request.POST)
         if form.is_valid():
-            form = Actions()
             return redirect('elevage_detail', id=elevage.id)
     else:
         form = Actions()
