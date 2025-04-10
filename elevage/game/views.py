@@ -38,7 +38,7 @@ def actions(request, elevage_id):
         form = Actions(request.POST)
         if form.is_valid():
             form = Actions()
-            return render(request, 'game/actions.html', {'form': form, 'elevage': elevage})
+            return redirect('elevage_detail', id=elevage.id)
     else:
         form = Actions()
 
