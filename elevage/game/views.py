@@ -35,10 +35,10 @@ def actions(request, elevage_id):
     elevage = get_object_or_404(Elevage, id=elevage_id)
 
     if request.method == 'POST':
-        form = Actions(request.POST)
+        form = Actions(request.POST, elevage=elevage)
         if form.is_valid():
             return redirect('elevage_detail', id=elevage.id)
     else:
-        form = Actions()
+        form = Actions(elevage=elevage)
 
     return render(request, 'game/actions.html', {'form': form, 'elevage': elevage})

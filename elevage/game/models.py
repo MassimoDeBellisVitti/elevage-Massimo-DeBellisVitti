@@ -33,6 +33,11 @@ class Individu(models.Model):
     sex = models.CharField(max_length=1, choices=SEX_CHOICES)
     age = models.IntegerField()
     state = models.CharField(max_length=10, choices=STATE_CHOICES, default='present')
+    
+class Regle(models.Model):
+    food_price = models.IntegerField(default=5)
+    cage_price = models.IntegerField(default=50)
+
 
     
     
