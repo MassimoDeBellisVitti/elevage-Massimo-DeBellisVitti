@@ -1,5 +1,6 @@
 from django import forms
 from .models import Elevage, Regle
+import math
 
 class ElevageForm(forms.ModelForm):
     class Meta:
@@ -15,8 +16,8 @@ class Actions(forms.Form):
         
         self.fields['male_rabbits_to_sell'].widget.attrs['max'] = elevage.male_rabbits
         self.fields['female_rabbits_to_sell'].widget.attrs['max'] = elevage.female_rabbits
-        self.fields['food_to_buy'].widget.attrs['max'] = regle.food_price
-        self.fields['cages_to_buy'].widget.attrs['max'] = regle.cage_price
+        self.fields['food_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.food_price)
+        self.fields['cages_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.cage_price)
 
     male_rabbits_to_sell = forms.IntegerField(min_value=0, initial=0)
     female_rabbits_to_sell = forms.IntegerField(min_value=0, initial=0)
