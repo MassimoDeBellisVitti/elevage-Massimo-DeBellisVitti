@@ -11,10 +11,9 @@ def food_consumption(age):
         return regle.food_consumption_age_3_or_more
     return 0
 
-def update_food_and_advance_month(elevage):
+def update_food(elevage):
     individus = elevage.individus.filter(state='present').order_by('sex')
     regle = Regle.objects.first()
-    elevage.month += 1
     for individu in individus:
         food_needed = food_consumption(individu.age)
         if elevage.foodLevel >= food_needed:
@@ -24,9 +23,6 @@ def update_food_and_advance_month(elevage):
         else:
             individu.state = 'dead'
             individu.save()
-    update_pregnancy(elevage)
-    reproduce(elevage)
-    elevage.save()
 
 def sell_rabbits(elevage, male_rabbits_to_sell, female_rabbits_to_sell):
     male_rabbits = elevage.individus.filter(sex='M', state='present')[:male_rabbits_to_sell]
@@ -95,3 +91,10 @@ def update_pregnancy(elevage):
             female.state = 'present'
             female.pregnancy_start_month = None
         female.save()
+
+def update(elevage):
+    update_food(elevage)
+    update_pregnancy(elevage)
+    reproduce(elevage)
+    elevage.month += 1
+    elevage.save()

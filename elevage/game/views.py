@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Elevage, Individu, Regle
 from .forms import ElevageForm, Actions
-from .services import process_actions, update_food_and_advance_month
+from .services import process_actions, update
 
 def nouveau(request):
     if request.method == 'POST':
@@ -44,7 +44,7 @@ def actions(request, elevage_id):
             cages_to_buy = form.cleaned_data['cages_to_buy']
 
             process_actions(elevage, male_rabbits_to_sell, female_rabbits_to_sell, food_to_buy, cages_to_buy)
-            update_food_and_advance_month(elevage)
+            update(elevage)
 
             return redirect('elevage_detail', id=elevage.id)
     else:
