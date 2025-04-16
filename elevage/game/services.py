@@ -23,3 +23,30 @@ def update_food_and_advance_month(elevage):
             individu.state = 'dead'
             individu.save()
     elevage.save()
+
+def sell_rabbits(elevage, male_rabbits_to_sell, female_rabbits_to_sell):
+    male_rabbits = elevage.individus.filter(sex='M', state='present')[:male_rabbits_to_sell]
+    for rabbit in male_rabbits:
+        rabbit.state = 'sold'
+        rabbit.save()
+
+    female_rabbits = elevage.individus.filter(sex='F', state='present')[:female_rabbits_to_sell]
+    for rabbit in female_rabbits:
+        rabbit.state = 'sold'
+        rabbit.save()
+
+    elevage.male_rabbits -= male_rabbits_to_sell
+    elevage.female_rabbits -= female_rabbits_to_sell
+    regle = Regle.objects.first()
+    elevage.money += (male_rabbits_to_sell + female_rabbits_to_sell) * regle.rabbit_sale_price
+
+def buy_resources(elevage, food_to_buy, cages_to_buy):
+    regle = Regle.objects.first()
+    elevage.foodLevel += food_to_buy
+    elevage.cageNumber += cages_to_buy
+    elevage.money -= (food_to_buy * regle.food_price + cages_to_buy * regle.cage_price)
+
+def process_actions(elevage, male_rabbits_to_sell, female_rabbits_to_sell, food_to_buy, cages_to_buy):
+    sell_rabbits(elevage, male_rabbits_to_sell, female_rabbits_to_sell)
+    buy_resources(elevage, food_to_buy, cages_to_buy)
+    elevage.save()
