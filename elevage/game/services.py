@@ -12,7 +12,7 @@ def food_consumption(age):
     return 0
 
 def update_food(elevage):
-    individus = elevage.individus.filter(state='present').order_by('sex')
+    individus = elevage.individus.filter(state__in=['present', 'pregnant']).order_by('sex')
     regle = Regle.objects.first()
     for individu in individus:
         food_needed = food_consumption(individu.age)
