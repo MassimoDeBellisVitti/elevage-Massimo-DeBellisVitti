@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Elevage, Individu, Regle
 from .forms import ElevageForm, Actions
+from .services import update_food_and_advance_month
 
 def nouveau(request):
     if request.method == 'POST':
@@ -61,10 +62,12 @@ def actions(request, elevage_id):
             elevage.foodLevel += food_to_buy
             elevage.cageNumber += cages_to_buy
             elevage.money -= (food_to_buy * regle.food_price + cages_to_buy * regle.cage_price)
+            
+            
+            update_food_and_advance_month(elevage)
             elevage.save()
-
             return redirect('elevage_detail', id=elevage.id)
     else:
         form = Actions(elevage=elevage)
-
     return render(request, 'game/actions.html', {'form': form, 'elevage': elevage})
+
