@@ -33,6 +33,7 @@ class Individu(models.Model):
     sex = models.CharField(max_length=1, choices=SEX_CHOICES)
     age = models.IntegerField()
     state = models.CharField(max_length=10, choices=STATE_CHOICES, default='present')
+    pregnancy_start_month = models.IntegerField(null=True, blank=True)
     
 class Regle(models.Model):
     food_price = models.IntegerField(default=5)
@@ -42,9 +43,14 @@ class Regle(models.Model):
     food_consumption_age_1 = models.IntegerField(default=0)
     food_consumption_age_2 = models.IntegerField(default=100)
     food_consumption_age_3_or_more = models.IntegerField(default=250)
-
-
-
     
-    
+    reproduction_start_age = models.IntegerField(default=6)
+    reproduction_end_age = models.IntegerField(default=48)
+    gestation_duration = models.IntegerField(default=1)
+    litter_size = models.IntegerField(default=4)
+
+
+
+
+
 
