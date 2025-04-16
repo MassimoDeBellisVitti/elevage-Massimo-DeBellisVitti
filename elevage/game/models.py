@@ -39,14 +39,9 @@ class Regle(models.Model):
     cage_price = models.IntegerField(default=50)
     rabbit_sale_price = models.IntegerField(default=10)
     
-    def food_consumption(self, age):
-        if age == 1:
-            return 0
-        elif age == 2:
-            return 100
-        elif age >= 3:
-            return 250
-        return 0
+    food_consumption_age_1 = models.IntegerField(default=0)
+    food_consumption_age_2 = models.IntegerField(default=100)
+    food_consumption_age_3_or_more = models.IntegerField(default=250)
 
 
 
