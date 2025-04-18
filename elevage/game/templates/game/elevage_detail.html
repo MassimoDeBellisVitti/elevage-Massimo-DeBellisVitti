@@ -19,10 +19,13 @@
         {% endfor %}
     </ul>
 
-    <a href="{% url 'actions' elevage.id %}">
-        <button>Manage Actions</button>
-    </a>
-    <br>
+    <h2>Actions</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
     <a href="{% url 'elevage_list' %}">Back to Farm List</a>
 </body>
 </html>

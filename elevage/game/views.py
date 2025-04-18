@@ -27,13 +27,6 @@ def elevage_list(request):
 def elevage_detail(request, id):
     elevage = get_object_or_404(Elevage, id=id)
     individus = elevage.individus.all()
-    return render(request, 'game/elevage_detail.html', {'elevage': elevage, 'individus': individus})
-
-def home(request):
-    return render(request, 'game/home.html')
-
-def actions(request, elevage_id):
-    elevage = get_object_or_404(Elevage, id=elevage_id)
 
     if request.method == 'POST':
         form = Actions(request.POST, elevage=elevage)
@@ -49,5 +42,9 @@ def actions(request, elevage_id):
             return redirect('elevage_detail', id=elevage.id)
     else:
         form = Actions(elevage=elevage)
-    return render(request, 'game/actions.html', {'form': form, 'elevage': elevage})
+
+    return render(request, 'game/elevage_detail.html', {'elevage': elevage, 'individus': individus, 'form': form})
+
+def home(request):
+    return render(request, 'game/home.html')
 
