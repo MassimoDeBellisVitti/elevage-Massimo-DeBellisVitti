@@ -107,10 +107,16 @@ def handle_overpopulation(elevage):
             individu.state = 'dead'
             individu.save()
 
+def update_rabbit_counts(elevage):
+    elevage.male_rabbits = elevage.individus.filter(sex='M', state__in=['present', 'pregnant']).count()
+    elevage.female_rabbits = elevage.individus.filter(sex='F', state__in=['present', 'pregnant']).count()
+    elevage.save()
+
 def update(elevage):
     update_food(elevage)
     update_pregnancy(elevage)
     reproduce(elevage)
     handle_overpopulation(elevage)
+    update_rabbit_counts(elevage)  # Aggiorna i conteggi dei conigli
     elevage.month += 1
     elevage.save()
