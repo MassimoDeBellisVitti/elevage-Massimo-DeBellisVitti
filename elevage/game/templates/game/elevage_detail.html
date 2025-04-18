@@ -19,6 +19,14 @@
         {% endfor %}
     </ul>
 
+    <p>
+        {% if show_all %}
+            <a href="?show_all=false">Hide Dead and Sold Rabbits</a>
+        {% else %}
+            <a href="?show_all=true">Show Dead and Sold Rabbits</a>
+        {% endif %}
+    </p>
+
     <h2>Actions</h2>
     <form method="post">
         {% csrf_token %}
