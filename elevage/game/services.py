@@ -25,12 +25,12 @@ def update_food(elevage):
             individu.save()
 
 def sell_rabbits(elevage, male_rabbits_to_sell, female_rabbits_to_sell):
-    male_rabbits = elevage.individus.filter(sex='M', state='present')[:male_rabbits_to_sell]
+    male_rabbits = elevage.individus.filter(sex='M', state__in=['present', 'pregnant'])[:male_rabbits_to_sell]
     for rabbit in male_rabbits:
         rabbit.state = 'sold'
         rabbit.save()
 
-    female_rabbits = elevage.individus.filter(sex='F', state='present')[:female_rabbits_to_sell]
+    female_rabbits = elevage.individus.filter(sex='F', state__in=['present', 'pregnant'])[:female_rabbits_to_sell]
     for rabbit in female_rabbits:
         rabbit.state = 'sold'
         rabbit.save()
@@ -92,9 +92,25 @@ def update_pregnancy(elevage):
             female.pregnancy_start_month = None
         female.save()
 
+def handle_overpopulation(elevage):
+    regle = Regle.objects.first()
+    adults = elevage.individus.filter(age__gte=2, state__in=['present', 'pregnant']).count()
+    cages_available = elevage.cageNumber
+    overpopulation_threshold = cages_available * regle.overpopulation_threshold
+
+    if adults > overpopulation_threshold:
+        surplus = adults - overpopulation_threshold
+        num_to_die = random.randint(surplus, adults)  
+        sick_individus = list(elevage.individus.filter(age__gte=1, state__in=['present', 'pregnant']))
+        selected_to_die = random.sample(sick_individus, num_to_die)  
+        for individu in selected_to_die:
+            individu.state = 'dead'
+            individu.save()
+
 def update(elevage):
     update_food(elevage)
     update_pregnancy(elevage)
     reproduce(elevage)
+    handle_overpopulation(elevage)
     elevage.month += 1
     elevage.save()

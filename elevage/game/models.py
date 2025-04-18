@@ -48,6 +48,8 @@ class Regle(models.Model):
     reproduction_end_age = models.IntegerField(default=48)
     gestation_duration = models.IntegerField(default=1)
     litter_size = models.IntegerField(default=4)
+    
+    overpopulation_threshold = models.IntegerField(default=10)
 
 
 
