@@ -33,6 +33,9 @@ def elevage_detail(request, id):
     else:
         individus = elevage.individus.exclude(state__in=['dead', 'sold'])
 
+    male_rabbits = individus.filter(sex='M').order_by('-age')
+    female_rabbits = individus.filter(sex='F').order_by('-age')
+
     if request.method == 'POST':
         form = Actions(request.POST, elevage=elevage)
         if form.is_valid():
@@ -48,7 +51,13 @@ def elevage_detail(request, id):
     else:
         form = Actions(elevage=elevage)
 
-    return render(request, 'game/elevage_detail.html', {'elevage': elevage, 'individus': individus, 'form': form, 'show_all': show_all})
+    return render(request, 'game/elevage_detail.html', {
+        'elevage': elevage,
+        'male_rabbits': male_rabbits,
+        'female_rabbits': female_rabbits,
+        'form': form,
+        'show_all': show_all
+    })
 
 def home(request):
     return render(request, 'game/home.html')

@@ -12,10 +12,17 @@
     <p>Male Rabbits: {{ elevage.male_rabbits }}</p>
     <p>Female Rabbits: {{ elevage.female_rabbits }}</p>
 
-    <h2>Individus</h2>
+    <h2>Male Rabbits</h2>
     <ul>
-        {% for individu in individus %}
-            <li>{{ individu.get_sex_display }} - Age: {{ individu.age }} - State: {{ individu.get_state_display }}</li>
+        {% for rabbit in male_rabbits %}
+            <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Female Rabbits</h2>
+    <ul>
+        {% for rabbit in female_rabbits %}
+            <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
         {% endfor %}
     </ul>
 
