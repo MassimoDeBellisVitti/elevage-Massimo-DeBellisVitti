@@ -13,18 +13,55 @@
     <p>Female Rabbits: {{ elevage.female_rabbits }}</p>
 
     <h2>Male Rabbits</h2>
+    <p>List of male rabbits grouped by age:</p>
     <ul>
-        {% for rabbit in male_rabbits %}
+        <li><strong>Older than 2 months (food consumption: 250):</strong></li>
+        <ul>
+            {% for rabbit in male_rabbits_by_age.older %}
+                <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
+            {% endfor %}
+        </ul>
+        <li><strong>2 months old (food consumption: 100):</strong></li>
+        <ul>
+            {% for rabbit in male_rabbits_by_age.2 %}
+                <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
+            {% endfor %}
+        </ul>
+        <li><strong>1 month old (does not consume food, does not occupy cage space):</strong></li>
+        <ul>
+            {% for rabbit in male_rabbits_by_age.1 %}
+                <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
+            {% endfor %}
+        </ul>
+    </ul>
+<h2>Female Rabbits</h2>
+<p>List of female rabbits grouped by age:</p>
+<ul>
+    <li><strong>6 months old or older (breedable, food consumption: 250):</strong></li>
+    <ul>
+        {% for rabbit in female_rabbits_by_age.6_or_older %}
             <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
         {% endfor %}
     </ul>
-
-    <h2>Female Rabbits</h2>
+    <li><strong>Younger than 6 months (not breedable, food consumption: 250):</strong></li>
     <ul>
-        {% for rabbit in female_rabbits %}
+        {% for rabbit in female_rabbits_by_age.younger_than_6 %}
             <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
         {% endfor %}
     </ul>
+    <li><strong>2 months old (not breedable, food consumption: 100):</strong></li>
+    <ul>
+        {% for rabbit in female_rabbits_by_age.2 %}
+            <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
+        {% endfor %}
+    </ul>
+    <li><strong>1 month old (not breedable, does not consume food, does not occupy cage space):</strong></li>
+    <ul>
+        {% for rabbit in female_rabbits_by_age.1 %}
+            <li>Age: {{ rabbit.age }} - State: {{ rabbit.get_state_display }}</li>
+        {% endfor %}
+    </ul>
+</ul>
 
     <p>
         {% if show_all %}

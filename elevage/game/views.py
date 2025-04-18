@@ -36,6 +36,19 @@ def elevage_detail(request, id):
     male_rabbits = individus.filter(sex='M').order_by('-age')
     female_rabbits = individus.filter(sex='F').order_by('-age')
 
+    male_rabbits_by_age = {
+        1: male_rabbits.filter(age=1),
+        2: male_rabbits.filter(age=2),
+        'older': male_rabbits.filter(age__gt=2),
+    }
+
+    female_rabbits_by_age = {
+        1: female_rabbits.filter(age=1),
+        2: female_rabbits.filter(age=2),
+        'younger_than_6': female_rabbits.filter(age__gt=2, age__lt=6),
+        '6_or_older': female_rabbits.filter(age__gt=5),
+    }
+
     if request.method == 'POST':
         form = Actions(request.POST, elevage=elevage)
         if form.is_valid():
@@ -53,8 +66,8 @@ def elevage_detail(request, id):
 
     return render(request, 'game/elevage_detail.html', {
         'elevage': elevage,
-        'male_rabbits': male_rabbits,
-        'female_rabbits': female_rabbits,
+        'male_rabbits_by_age': male_rabbits_by_age,
+        'female_rabbits_by_age': female_rabbits_by_age,
         'form': form,
         'show_all': show_all
     })
