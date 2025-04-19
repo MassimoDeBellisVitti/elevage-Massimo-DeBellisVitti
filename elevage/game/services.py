@@ -42,7 +42,7 @@ def sell_rabbits(elevage, male_rabbits_to_sell, female_rabbits_to_sell):
 
 def buy_resources(elevage, food_to_buy, cages_to_buy):
     regle = Regle.objects.first()
-    elevage.foodLevel += food_to_buy
+    elevage.foodLevel += food_to_buy*1000
     elevage.cageNumber += cages_to_buy
     elevage.money -= (food_to_buy * regle.food_price + cages_to_buy * regle.cage_price)
 

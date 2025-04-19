@@ -27,6 +27,7 @@ def nouveau(request):
                 form.add_error(None, "Not enough money to create this farm.")
             else:
                 elevage.money = initial_budget - total_cost
+                elevage.foodLevel = food*1000
                 elevage.save()
 
                 for _ in range(male_rabbits):
