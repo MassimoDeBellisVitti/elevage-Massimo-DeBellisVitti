@@ -17,5 +17,44 @@
         {% endif %}
         <input type="submit" value="Create">
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const maleRabbitsInput = document.querySelector('#id_male_rabbits');
+            const femaleRabbitsInput = document.querySelector('#id_female_rabbits');
+            const foodLevelInput = document.querySelector('#id_foodLevel');
+            const cageNumberInput = document.querySelector('#id_cageNumber');
+            const moneyInput = document.querySelector('#id_money');
+
+            const regle = {
+                maleRabbitPrice: {{ regle.male_rabbit_price|default:0 }},
+                femaleRabbitPrice: {{ regle.female_rabbit_price|default:0 }},
+                foodPrice: {{ regle.food_price|default:0 }},
+                cagePrice: {{ regle.cage_price|default:0 }},
+                budgetLimit: {{ regle.budget_limit|default:0 }}
+            };
+
+            function updateBudget() {
+                const moneySpent =
+                    (maleRabbitsInput.value * regle.maleRabbitPrice) +
+                    (femaleRabbitsInput.value * regle.femaleRabbitPrice) +
+                    (foodLevelInput.value * regle.foodPrice) +
+                    (cageNumberInput.value * regle.cagePrice);
+
+                const remainingBudget = regle.budgetLimit - moneySpent;
+
+                moneyInput.value = remainingBudget >= 0 ? remainingBudget : 0;
+
+                maleRabbitsInput.max = Math.floor(remainingBudget / regle.maleRabbitPrice) + parseInt(maleRabbitsInput.value);
+                femaleRabbitsInput.max = Math.floor(remainingBudget / regle.femaleRabbitPrice) + parseInt(femaleRabbitsInput.value);
+                foodLevelInput.max = Math.floor(remainingBudget / regle.foodPrice) + parseInt(foodLevelInput.value);
+                cageNumberInput.max = Math.floor(remainingBudget / regle.cagePrice) + parseInt(cageNumberInput.value);
+            }
+
+            maleRabbitsInput.addEventListener('input', updateBudget);
+            femaleRabbitsInput.addEventListener('input', updateBudget);
+            foodLevelInput.addEventListener('input', updateBudget);
+            cageNumberInput.addEventListener('input', updateBudget);
+        });
+    </script>
 </body>
 </html>

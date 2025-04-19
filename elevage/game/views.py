@@ -37,9 +37,19 @@ def nouveau(request):
 
                 return redirect('elevage_detail', id=elevage.id)
     else:
-        form = ElevageForm(initial={'money': initial_budget, 'male_rabbits': 0, 'female_rabbits': 0, 'foodLevel': 0, 'cageNumber': 0})
+        form = ElevageForm(initial={
+            'money': initial_budget,
+            'male_rabbits': 0,
+            'female_rabbits': 0,
+            'foodLevel': 0,
+            'cageNumber': 0
+        })
 
-    return render(request, 'game/nouveau.html', {'form': form})
+    return render(request, 'game/nouveau.html', {
+        'form': form,
+        'regle': regle,  
+        'initial_budget': initial_budget  
+    })
 
 def elevage_list(request):
     elevages = Elevage.objects.all()
