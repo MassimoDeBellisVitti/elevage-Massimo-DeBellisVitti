@@ -61,6 +61,14 @@ def can_reproduce(individu):
 
 def reproduce(elevage):
     regle = Regle.objects.first()
+    males = elevage.individus.filter(
+        sex='M',
+        state='present',
+        age__gte=3
+    )
+    if not males.exists():
+        return
+
     females = list(elevage.individus.filter(
         sex='F',
         state='present',
