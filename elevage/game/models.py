@@ -50,6 +50,10 @@ class Regle(models.Model):
     litter_size = models.IntegerField(default=4)
     
     overpopulation_threshold = models.IntegerField(default=10)
+    
+    budget_limit = models.IntegerField(default=1000)
+    male_rabbit_price = models.IntegerField(default=10)
+    female_rabbit_price = models.IntegerField(default=10)
 
 
 

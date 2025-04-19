@@ -4,20 +4,41 @@ from .forms import ElevageForm, Actions
 from .services import process_actions, update
 
 def nouveau(request):
+    regle = Regle.objects.first()
+    initial_budget = regle.budget_limit
+
     if request.method == 'POST':
         form = ElevageForm(request.POST)
         if form.is_valid():
-            elevage = form.save()
+            elevage = form.save(commit=False)
+            male_rabbits = int(request.POST.get('male_rabbits', 0))
+            female_rabbits = int(request.POST.get('female_rabbits', 0))
+            food = int(request.POST.get('foodLevel', 0))
+            cages = int(request.POST.get('cageNumber', 0))
 
-            for _ in range(int(request.POST.get('male_rabbits', 0))):
-                Individu.objects.create(elevage=elevage, sex='M', age=1)
+            total_cost = (
+                male_rabbits * regle.male_rabbit_price +
+                female_rabbits * regle.female_rabbit_price +
+                food * regle.food_price +
+                cages * regle.cage_price
+            )
 
-            for _ in range(int(request.POST.get('female_rabbits', 0))):
-                Individu.objects.create(elevage=elevage, sex='F', age=1)
+            if total_cost > initial_budget:
+                form.add_error(None, "Not enough money to create this farm.")
+            else:
+                elevage.money = initial_budget - total_cost
+                elevage.save()
 
-            return redirect('elevage_detail', id=elevage.id)
+                for _ in range(male_rabbits):
+                    Individu.objects.create(elevage=elevage, sex='M', age=1)
+
+                for _ in range(female_rabbits):
+                    Individu.objects.create(elevage=elevage, sex='F', age=1)
+
+                return redirect('elevage_detail', id=elevage.id)
     else:
-        form = ElevageForm()
+        form = ElevageForm(initial={'money': initial_budget, 'male_rabbits': 0, 'female_rabbits': 0, 'foodLevel': 0, 'cageNumber': 0})
+
     return render(request, 'game/nouveau.html', {'form': form})
 
 def elevage_list(request):

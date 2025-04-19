@@ -8,7 +8,14 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Créer">
+        {% if form.non_field_errors %}
+            <ul>
+                {% for error in form.non_field_errors %}
+                    <li style="color: red;">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <input type="submit" value="Create">
     </form>
 </body>
 </html>
