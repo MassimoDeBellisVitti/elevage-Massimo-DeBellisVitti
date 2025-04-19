@@ -10,12 +10,15 @@ class ElevageForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        regle = Regle.objects.first()
         
         self.fields['male_rabbits'].widget.attrs['min'] = 0
         self.fields['female_rabbits'].widget.attrs['min'] = 0
         self.fields['foodLevel'].widget.attrs['min'] = 0
         self.fields['cageNumber'].widget.attrs['min'] = 0
         self.fields['money'].widget.attrs['min'] = 0
+        
+        self.fields['money'].widget.attrs['max'] = regle.budget_limit
         
 class Actions(forms.Form):
     def __init__(self, *args, **kwargs):
