@@ -7,6 +7,15 @@ class ElevageForm(forms.ModelForm):
         model = Elevage
         fields = '__all__'
         exclude = ['month']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.fields['male_rabbits'].widget.attrs['min'] = 0
+        self.fields['female_rabbits'].widget.attrs['min'] = 0
+        self.fields['foodLevel'].widget.attrs['min'] = 0
+        self.fields['cageNumber'].widget.attrs['min'] = 0
+        self.fields['money'].widget.attrs['min'] = 0
         
 class Actions(forms.Form):
     def __init__(self, *args, **kwargs):
