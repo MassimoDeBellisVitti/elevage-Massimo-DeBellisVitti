@@ -15,7 +15,7 @@ def update_food(elevage):
     individus = elevage.individus.filter(state__in=['present', 'pregnant']).order_by('sex')
     regle = Regle.objects.first()
     for individu in individus:
-        food_needed = food_consumption(individu.age)
+        food_needed = food_consumption(individu.age)*30
         if elevage.foodLevel >= food_needed:
             elevage.foodLevel -= food_needed
             individu.age += 1
