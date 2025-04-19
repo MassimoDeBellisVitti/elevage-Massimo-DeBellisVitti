@@ -25,12 +25,12 @@ def update_food(elevage):
             individu.save()
 
 def sell_rabbits(elevage, male_rabbits_to_sell, female_rabbits_to_sell):
-    male_rabbits = elevage.individus.filter(sex='M', state__in=['present', 'pregnant'])[:male_rabbits_to_sell]
+    male_rabbits = elevage.individus.filter(sex='M', state__in=['present', 'pregnant']).order_by('-age')[:male_rabbits_to_sell]
     for rabbit in male_rabbits:
         rabbit.state = 'sold'
         rabbit.save()
 
-    female_rabbits = elevage.individus.filter(sex='F', state__in=['present', 'pregnant'])[:female_rabbits_to_sell]
+    female_rabbits = elevage.individus.filter(sex='F', state__in=['present', 'pregnant']).order_by('-age')[:female_rabbits_to_sell]
     for rabbit in female_rabbits:
         rabbit.state = 'sold'
         rabbit.save()
