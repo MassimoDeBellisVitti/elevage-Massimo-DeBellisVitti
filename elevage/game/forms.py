@@ -36,7 +36,13 @@ class Actions(forms.Form):
             female_rabbits = elevage.individus.filter(sex='F', state__in=['present', 'pregnant'], age__gte=3).count()
 
             self.fields['male_rabbits_to_sell'].widget.attrs['max'] = male_rabbits
+            self.fields['male_rabbits_to_sell'].label = f"Male rabbits to sell (Price: {regle.rabbit_sale_price}€ each)"  
+
             self.fields['female_rabbits_to_sell'].widget.attrs['max'] = female_rabbits
+            self.fields['female_rabbits_to_sell'].label = f"Female rabbits to sell (Price: {regle.rabbit_sale_price}€ each)"  
 
         self.fields['food_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.food_price)
+        self.fields['food_to_buy'].label = f"Food to buy (Price: {regle.food_price}€/kg)" 
+
         self.fields['cages_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.cage_price)
+        self.fields['cages_to_buy'].label = f"Cages to buy (Price: {regle.cage_price}€ each)" 
