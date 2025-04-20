@@ -34,11 +34,13 @@
                         <form method="post" class="mt-3">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary">
-                                Advance to next month – Consume {{ monthly_food_consumption }} g of food
-                            </button>
+                            <div class="d-flex justify-content-start mt-3">
+                                <button type="submit" class="btn btn-primary">
+                                    Advance to next month – Consume {{ monthly_food_consumption }} g of food
+                                </button>
+                                <a href="{% url 'elevage_list' %}" class="btn btn-secondary ms-2">Back to Farm List</a>
+                            </div>
                         </form>
-                        <a href="{% url 'elevage_list' %}" class="btn btn-secondary mt-3">Back to Farm List</a>
                     </div>
                 </div>
             </div>
