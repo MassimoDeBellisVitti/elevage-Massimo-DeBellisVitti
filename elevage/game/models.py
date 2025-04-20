@@ -36,9 +36,9 @@ class Individu(models.Model):
     pregnancy_start_month = models.IntegerField(null=True, blank=True)
     
 class Regle(models.Model):
-    food_price = models.IntegerField(default=5)
-    cage_price = models.IntegerField(default=50)
-    rabbit_sale_price = models.IntegerField(default=10)
+    food_price = models.IntegerField(default=1)
+    cage_price = models.IntegerField(default=60)
+    rabbit_sale_price = models.IntegerField(default=30)
     
     food_consumption_age_1 = models.IntegerField(default=0)
     food_consumption_age_2 = models.IntegerField(default=100)
@@ -51,9 +51,9 @@ class Regle(models.Model):
     
     overpopulation_threshold = models.IntegerField(default=10)
     
-    budget_limit = models.IntegerField(default=1000)
+    budget_limit = models.IntegerField(default=300)
     male_rabbit_price = models.IntegerField(default=10)
-    female_rabbit_price = models.IntegerField(default=10)
+    female_rabbit_price = models.IntegerField(default=25)
 
 
 
