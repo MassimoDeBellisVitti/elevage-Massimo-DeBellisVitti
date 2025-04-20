@@ -58,6 +58,7 @@ def elevage_list(request):
 
 def elevage_detail(request, id):
     elevage = get_object_or_404(Elevage, id=id)
+    regle = Regle.objects.first()  # Assicurati che esista un'istanza di Regle
     show_all = request.GET.get('show_all', 'false') == 'true'
     monthly_food_consumption = calculate_monthly_food_consumption(elevage)
 
@@ -99,6 +100,7 @@ def elevage_detail(request, id):
 
     return render(request, 'game/elevage_detail.html', {
         'elevage': elevage,
+        'regle': regle,  
         'male_rabbits_by_age': male_rabbits_by_age,
         'female_rabbits_by_age': female_rabbits_by_age,
         'form': form,
