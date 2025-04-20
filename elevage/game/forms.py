@@ -11,14 +11,22 @@ class ElevageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         regle = Regle.objects.first()
-        
+
         self.fields['male_rabbits'].widget.attrs['min'] = 0
+        self.fields['male_rabbits'].label = f"Male rabbits (Price: {regle.male_rabbit_price}€ each)"
+
         self.fields['female_rabbits'].widget.attrs['min'] = 0
+        self.fields['female_rabbits'].label = f"Female rabbits (Price: {regle.female_rabbit_price}€ each)"
+
         self.fields['foodLevel'].widget.attrs['min'] = 0
+        self.fields['foodLevel'].label = f"Food level (Price: {regle.food_price}€/kg)"
+
         self.fields['cageNumber'].widget.attrs['min'] = 0
+        self.fields['cageNumber'].label = f"Cages (Price: {regle.cage_price}€ each)"
+
         self.fields['money'].widget.attrs['min'] = 0
-        
         self.fields['money'].widget.attrs['max'] = regle.budget_limit
+        self.fields['money'].label = f"Money (Max budget: {regle.budget_limit}€)"
         
 class Actions(forms.Form):
     male_rabbits_to_sell = forms.IntegerField(min_value=0, initial=0)
@@ -45,4 +53,4 @@ class Actions(forms.Form):
         self.fields['food_to_buy'].label = f"Food to buy (Price: {regle.food_price}€/kg)" 
 
         self.fields['cages_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.cage_price)
-        self.fields['cages_to_buy'].label = f"Cages to buy (Price: {regle.cage_price}€ each)" 
+        self.fields['cages_to_buy'].label = f"Cages to buy (Price: {regle.cage_price}€ each)"
