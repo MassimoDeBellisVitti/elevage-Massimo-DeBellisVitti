@@ -109,3 +109,6 @@ def elevage_detail(request, id):
 def home(request):
     return render(request, 'game/home.html')
 
+def rules(request):
+    return render(request, 'game/rules.html')
+
