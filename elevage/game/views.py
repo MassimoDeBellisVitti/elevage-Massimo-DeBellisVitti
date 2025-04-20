@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Elevage, Individu, Regle
 from .forms import ElevageForm, Actions
-from .services import process_actions, update
+from .services import process_actions, update, calculate_monthly_food_consumption
 
 def nouveau(request):
     regle = Regle.objects.first()
@@ -59,6 +59,7 @@ def elevage_list(request):
 def elevage_detail(request, id):
     elevage = get_object_or_404(Elevage, id=id)
     show_all = request.GET.get('show_all', 'false') == 'true'
+    monthly_food_consumption = calculate_monthly_food_consumption(elevage)
 
     if show_all:
         individus = elevage.individus.all()
@@ -101,7 +102,8 @@ def elevage_detail(request, id):
         'male_rabbits_by_age': male_rabbits_by_age,
         'female_rabbits_by_age': female_rabbits_by_age,
         'form': form,
-        'show_all': show_all
+        'show_all': show_all,
+        'monthly_food_consumption': monthly_food_consumption
     })
 
 def home(request):

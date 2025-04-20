@@ -23,6 +23,13 @@ def update_food(elevage):
         else:
             individu.state = 'dead'
             individu.save()
+            
+def calculate_monthly_food_consumption(elevage):
+    individus = elevage.individus.filter(state__in=['present', 'pregnant'])
+    total_food_needed = 0
+    for individu in individus:
+        total_food_needed += food_consumption(individu.age) * 30
+    return total_food_needed
 
 def sell_rabbits(elevage, male_rabbits_to_sell, female_rabbits_to_sell):
     male_rabbits = elevage.individus.filter(
