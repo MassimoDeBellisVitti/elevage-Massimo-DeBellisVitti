@@ -21,17 +21,22 @@ class ElevageForm(forms.ModelForm):
         self.fields['money'].widget.attrs['max'] = regle.budget_limit
         
 class Actions(forms.Form):
-    def __init__(self, *args, **kwargs):
-        elevage = kwargs.pop('elevage', None)
-        super().__init__(*args, **kwargs)
-        regle = Regle.objects.first()
-        
-        self.fields['male_rabbits_to_sell'].widget.attrs['max'] = elevage.male_rabbits
-        self.fields['female_rabbits_to_sell'].widget.attrs['max'] = elevage.female_rabbits
-        self.fields['food_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.food_price)
-        self.fields['cages_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.cage_price)
-
     male_rabbits_to_sell = forms.IntegerField(min_value=0, initial=0)
     female_rabbits_to_sell = forms.IntegerField(min_value=0, initial=0)
     food_to_buy = forms.IntegerField(min_value=0, initial=0)
     cages_to_buy = forms.IntegerField(min_value=0, initial=0)
+
+    def __init__(self, *args, **kwargs):
+        elevage = kwargs.pop('elevage', None)
+        super().__init__(*args, **kwargs)
+        regle = Regle.objects.first()
+
+        if elevage:
+            male_rabbits = elevage.individus.filter(sex='M', state__in=['present', 'pregnant'], age__gte=3).count()
+            female_rabbits = elevage.individus.filter(sex='F', state__in=['present', 'pregnant'], age__gte=3).count()
+
+            self.fields['male_rabbits_to_sell'].widget.attrs['max'] = male_rabbits
+            self.fields['female_rabbits_to_sell'].widget.attrs['max'] = female_rabbits
+
+        self.fields['food_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.food_price)
+        self.fields['cages_to_buy'].widget.attrs['max'] = math.floor(elevage.money / regle.cage_price)
